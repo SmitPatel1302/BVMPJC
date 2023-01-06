@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path 
-from AdminPanel.views import RenderAdminIndex, RenderAddAlumniData ,RenderUserData , RenderLoginPage , RenderRegistrationPage , RenderAlumniData , RenderEditAlumni , UpdateAluminiData, SaveImage, LoginFormData
+from AdminPanel.views import RenderAdminIndex, RenderAddAlumniData ,RenderUserData , RenderLoginPage , RenderRegistrationPage , RenderAlumniData , RenderEditAlumni , UpdateAluminiData, SaveImage
 from AdminPanel.AdminTabel import RenderTableDetails
 from django.contrib.auth.decorators import login_required
 from . import views
