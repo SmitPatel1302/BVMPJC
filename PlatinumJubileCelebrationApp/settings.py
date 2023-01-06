@@ -9,9 +9,7 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'whale-app-np5fl.ondigitalocean.app',
-    'bvmengineering.co.in',
-    'www.bvmengineering.co.in',
+    'https://whale-app-np5fl.ondigitalocean.app',
     'https://*.bvmengineering.co.in'
     ]
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

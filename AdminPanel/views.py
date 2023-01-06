@@ -133,6 +133,26 @@ class RenderLoginPage(View):
         form = LoginForm()
         return render(request,self.template_name,{"message":message,"form":form})
 
+class LoginFormData(View):
+    template_name = 'AdminPanel/login.html'
+    def get(self, request):
+        username = request.POST.get('username')
+        password = request.POST.get('password') 
+
+        users_ref = db.collection(u'User')
+        dt = users_ref.stream()
+        for data in dt:
+            dict = data.to_dict()
+            if (dict['email'] == username) & (dict['password'] == password):
+                request.session['name'] = dict['name']
+                request.session['role'] = dict['role']
+                request.session['email']=str(username)
+                return HttpResponseRedirect("/")
+        message="Invalid Credentials!!  Please ChecK your Data"
+        form = LoginForm()
+        return render(request,self.template_name,{"message":message,"form":form})
+
+
 # Class to Render Registration Page
 class RenderRegistrationPage(View):
     template_name = 'AdminPanel/registration.html'

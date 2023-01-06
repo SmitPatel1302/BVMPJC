@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path 
-from AdminPanel.views import RenderAdminIndex, RenderAddAlumniData ,RenderUserData , RenderLoginPage , RenderRegistrationPage , RenderAlumniData , RenderEditAlumni , UpdateAluminiData, SaveImage
+from AdminPanel.views import RenderAdminIndex, RenderAddAlumniData ,RenderUserData , RenderLoginPage , RenderRegistrationPage , RenderAlumniData , RenderEditAlumni , UpdateAluminiData, SaveImage, LoginFormData
 from AdminPanel.AdminTabel import RenderTableDetails
 from django.contrib.auth.decorators import login_required
 from . import views
@@ -18,6 +18,7 @@ urlpatterns = [
     path('saveImage', SaveImage.as_view(), name="Save Alumini Image"),
 
     path('login', RenderLoginPage.as_view(), name="Login Page"),
+    path('loginData/', LoginFormData.as_view(), name="Login Page Data"),
     path('registration', RenderRegistrationPage.as_view(), name="Registration Page"),
     path('userdata/', RenderUserData.as_view(), name="UserData"),
     path('logout/', views.logout, name="Log Out"),
