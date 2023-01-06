@@ -28,7 +28,7 @@ class RenderAdminIndex(View):
             context = {}
             context['alumni'] = len(list(users_ref.where('Student',"==","No").get()))
             context['user'] = len(list(users.get()))
-            context['kit'] = len(list(users_ref.where('status', '==', "1").where('Student',"==","No").get()))
+            context['kit'] = len(list(users_ref.where('status', '==', 1).where('Student',"==","No").get()))
             context['remaining'] = len(list(users_ref.where('status', '==', 0).where('Student',"==","No").get()))
             context['volunteer'] = len(list(users_ref.where('Student',"==","Yes").get()))
             return render(request, self.template_name,context)
@@ -83,10 +83,11 @@ class RenderAddAlumniData(View):
         lm = request.POST.get('lm')
         amount = request.POST.get('amount')
         date = request.POST.get('date')
-        receipt = request.POST.get('date')
+        receipt = request.POST.get('receipt')
+        doc1 = request.POST.get('scanqr')
 
         try:
-            doc = collection.document()
+            doc = collection.document(doc1)
             data = {
                 "name" : name,
                 "email" : email,
@@ -95,6 +96,7 @@ class RenderAddAlumniData(View):
                 "graduationYear" : year,
                 "city" :country,
                 "payment":paymate,
+                "Student":"No",
                 "imNumber":lm,
                 "amount":amount,
                 "date":date,
@@ -107,7 +109,6 @@ class RenderAddAlumniData(View):
         except:
             return render(request, self.template_name)
         return HttpResponseRedirect("/alumnidata")
-
 
 #Class to render Login Page
 class RenderLoginPage(View):
