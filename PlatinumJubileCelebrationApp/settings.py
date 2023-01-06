@@ -2,6 +2,11 @@ from pathlib import Path
 import os
 
 AWS_DEFAULT_ACL = 'public-read'
+CORS_ORIGIN_WHITELIST = [
+    'whale-app-np5fl.ondigitalocean.app',
+    'bvmengineering.co.in',
+    'www.bvmengineering.co.in'
+]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +21,7 @@ SECRET_KEY = 'django-insecure-%7vxcda*#cnq&qha)ci(l6f_3-w&wy4qnm3-bf(6z7-)z&k+1!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['whale-app-np5fl.ondigitalocean.app', 'bvmengineering.co.in','www.bvmengineering.co.in', '*']
 
 # Application definition
 
