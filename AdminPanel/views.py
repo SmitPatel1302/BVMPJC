@@ -136,8 +136,8 @@ class RenderLoginPage(View):
 class LoginFormData(View):
     template_name = 'AdminPanel/login.html'
     def get(self, request):
-        username = request.POST.get('username')
-        password = request.POST.get('password') 
+        username = request.GET.get('username')
+        password = request.GET.get('password') 
 
         users_ref = db.collection(u'User')
         dt = users_ref.stream()
