@@ -8,6 +8,10 @@ CORS_ORIGIN_WHITELIST = [
     'www.bvmengineering.co.in'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'whale-app-np5fl.ondigitalocean.app',
+    'bvmengineering.co.in',
+    'www.bvmengineering.co.in']
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
