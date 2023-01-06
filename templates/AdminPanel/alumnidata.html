@@ -1,0 +1,270 @@
+{% extends 'AdminPanel/nav.html' %}
+
+<!--Block to add the stylesheet-->
+{% block styleseet %}
+video {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    
+}
+{% endblock styleseet %}
+
+{% block content %}
+{% load static %}
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Alumni Details</h3>
+                <p class="text-subtitle text-muted">Alumni Data Table</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/AdminPanel/">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Alumni Data</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Basic Tables start -->
+    <section class="section">
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <!--Canvas to display captured image-->
+                            <canvas id="canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Div to contain video frame-->
+            
+              
+            <div class="col-6">        
+                <div class="card">
+                    <div class="card-content">
+                
+                        <div class="card-body">
+                            <div class="container-fluid text-center py-0 my-0">
+                                <video id="vid"></video>
+                            </div>
+                            <hr>
+                            <div class="container-fluid text-center">
+                                <button id="but" class="btn btn-sm border border-1 px-2 mx-4" autoplay>Open WebCam</button>
+                                <button id="stop-button" class="btn btn-sm border border-1 px-2 mx-4" autoplay>Stop WebCam</button>
+                                <button id="stopImage-button" class="btn btn-sm border border-1 px-2 mx-4" autoplay>Capture Image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card">
+            <div class="card-header">
+                BVM PJC
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                <table class="table" id="table1">
+                    <thead>
+                            <tr>
+                                <th>Count</th>
+                                <th>Name</th>
+                                <th>City</th>
+                                <th>Branch</th>
+                                <th>Conatct</th>
+                                <th>Member</th>
+                                <th>GraduationYear</th>
+                                <th>Status</th>
+                            </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for dt in data %}
+                            <tr>
+                                <td>{{dt.sr}}</td>
+                                <td>{{dt.name}}</td>
+                                <td>{{dt.city}}</td>
+                                <td>{{dt.branch}}</td>
+                                <td>{{dt.mobileNumber}}</td>
+                                <td>{{dt.member}}</td>
+                                <td>{{dt.graduationYear}}</td>
+                                <td>
+                                    {% if dt.profile == null %}
+                                        <a data-id="{{dt.doc}}" class="btn icon btn-info saveImage"><i class="bi bi-camera"></i></a>
+                                    {% endif %}
+                                    <a href="/viewalumnidata/{{dt.doc}}" class="btn icon btn-primary"><i class="bi bi-eye"></i></a>
+                                    <a href="/editalumnidata/{{dt.doc}}" class="btn icon btn-success"><i class="bi bi-pencil"></i></a>
+                                    {% if dt.status != 1 %}
+                                        <a data-id="{{dt.doc}}" class="btn icon btn-danger statuButton"><i class="bi bi-x"></i></a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        
+    </section>
+    
+    <!-- Basic Tables end -->
+</div>
+
+{% endblock %}
+
+<!--Block to write the javascript-->
+{% block javascript %}
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+
+     <script>
+        // Functipon to capture Image
+        function capture() {
+            var canvas = document.getElementById("canvas");
+            var video = document.getElementById("vid");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas
+              .getContext("2d")
+              .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+          
+            /** Code to merge image **/
+            /** For instance, if I want to merge a play image on center of existing image **/
+            const playImage = new Image();
+            playImage.src = "path to image asset";
+            playImage.onload = () => {
+              const startX = video.videoWidth / 2 - playImage.width / 2;
+              const startY = video.videoHeight / 2 - playImage.height / 2;
+              canvas
+                .getContext("2d")
+                .drawImage(playImage, startX, startY, playImage.width, playImage.height);
+              canvas.toBlob() = (blob) => {
+                const img = new Image();
+                img.src = window.URL.createObjectUrl(blob);
+              };
+            };
+            /** End **/
+          }
+
+        // Ajax call to Update Alumini Kit status and remove the Cross button
+        $(".statuButton").click(function() {
+            var parent = $(this)
+            $.ajax({
+                url: '/AdminPanel/updateAlumniData', 
+                type: 'POST', 
+                data: {
+                    'ID':$(this).data('id'),
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                },
+                success: function (response) {
+                    console.log('successfully execute')
+                    parent.remove()
+                }
+        });
+        });
+
+        // Javascript to start camera   
+        document.addEventListener("DOMContentLoaded", () => {
+            var but = document.getElementById("but");
+            var video = document.getElementById("vid");
+            var mediaDevices = navigator.mediaDevices;
+            vid.muted = true;
+            but.addEventListener("click", () => {
+      
+              // Accessing the user camera and video.
+              mediaDevices
+                .getUserMedia({
+                  video: true,
+                  audio: true,
+                })
+                .then((stream) => {
+      
+                  // Changing the source of video to current stream.
+                  window.localStream = stream;
+                  video.srcObject = stream;
+                  video.addEventListener("loadedmetadata", () => {
+                    video.play();
+                  });
+                })
+                .catch(alert);
+            });
+
+            const stopVideoButton = document.getElementById('stop-button');
+            stopVideoButton.addEventListener("click", () => {
+                localStream.getVideoTracks()[0].stop();
+                video.src = '';
+                
+                localStream.getAudioTracks()[0].stop();
+                audio.src = '';
+            });
+
+            const CaptureImageButton = document.getElementById('stopImage-button');
+            CaptureImageButton.addEventListener("click", () => {
+                capture();
+            });
+
+          });
+
+        // Javascript function to store the image to the firebase storage
+        const firebaseConfig = {
+            "type": "service_account",
+            "project_id": "bvmpjc-58b2c",
+            "private_key_id": "28bdbddcd08c3687c26ffd2b28803cbbfe039e95",
+            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCyAGVvTJZ567//\nmvEJcXkBeA6hUdicOhAuw1Tyql1vIwOl7JHnpHouHd9CXoru25wy+BNxSz9JDNdK\nmOA1P6nC+hwyRnY8K0ZYxB7f/qERK8d5Vgh4UShP1sIQN9dFK5p6aFwC+q9YdkqC\ny7f6Vx20fCxpMwdTBKlooG/TDl1r4iQsZD7zJS3ll+YVazM1vwu0ZAjbQIrrgtaL\nzBK3/FvT9zxuLji7zSWVCID5oOwAZektX4SBy4WIIdAYrsDgJTM82GUE7X2x/SCI\ndxC9WTzBFrCV/ftQljT2oO2DDS/rFjYlbjWq3uAxTJwDmHPKca6BSP7wpqU4G4hR\nCNpPAQxVAgMBAAECggEAK1VKXFqORXcdginjpRNhTHjAQwiMTZgbCW9XFk5gOaaS\nBEo/yN8zOVffWqZudzCyaXwYK5wQd4WvQcNOzdfGSaeexqR9sy8rzH9OLuSrrGT2\nhjTqEfRb9nfHPbCCcR3o2QTf5X/GwSfnAsl6a/DaU+5o12FrVowLe+OW5ZAZMSJu\n7om/a20rjt7RIbKaBj3t5GtOTAEppofwFMg7G8iarJ+qJ7fOwGtshdVj83cLUJlP\nONzDEnVGBY6oouU/j8L1+6ErAp4bAwFRcVBF0FzgMwgOYL7Ue7APzNa0bkuZ6ndh\nuuNduyFlv5QUeKtCoSvrRQuIcF7UYX24hhduGb3f3wKBgQD3c6EB2+TrMWt5h+Ce\naB9BM+H613grgDkeAU+hXP0obfSc8cT99UPeZAsERnrSapCi+XIpQQ27MQM8hXql\n3Qeu7qIiiIi++T9JlKm+tpPnHGxNuIFaRUbQBZQKk3zzNlWfsMBCpidvC7XOiB5T\nDhBD7qbF2GcaItLu1VnSb4hS4wKBgQC4JpN4spI+9urWZczzUIJWTU2hVS7OOBW/\nTPhdbTJ9xjr+rbY7qZQ/By05765Yz5AzXtuF1Z+LcbRDVoVURVXTNVzlNUT4+0cJ\n5SYfdukjrbotMhuvjJS+Y7p2uVxbtIPNwLGxrDLkFxAApdmP/1J2dITqew+YTLIP\nKCKGLGDxZwKBgC8YUadh63KbyEGsC6L6XCBzuGmeQp+82qIMS9SBNylPrAOGvCA9\nYrpbvgEFTPDpGTf7U6/oUq2yyVPmb45Lv9+aST9bTvNRyqq9YYULiKCutyofmHbO\nwohq118f7OL5D1jCMgU9TDoFN4fkPik+fvf+3ry+z/iYch7EekDju0VTAoGBAKhm\nvp21z3+9FeySk+Y+TbLWZpOO7oqvR1P183qcjXvvd6vG98t/vI4W5gkBYpLc3aXc\nrSuqu4gtpweda7gw39eSCS2ilTyLrd8iqsZDW9jA2mzSUfcrvCqP0MkZoZhLb+0M\ntnMgYjmrzXqKMHc6qhKhY5t6hjxkhsDNlyTUGKMpAoGADAybHjTZoA6t23hUPaAL\n6Xm2eR9EOWjPhRVqzOyX0/o6oKxFvWiidwshE6jGQk5fQTGULjTz6pMBpUFUHigS\nM7C0UC/GgNM3HO19EluiRqzDXWadSx1Cb4IiqaZXHUijOykEqBWPyI0iRkAASGBC\n3IhEZlYzOLXsdKkfjX8YZnA=\n-----END PRIVATE KEY-----\n",
+            "client_email": "firebase-adminsdk-ek4u5@bvmpjc-58b2c.iam.gserviceaccount.com",
+            "client_id": "115813111552217834358",
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ek4u5%40bvmpjc-58b2c.iam.gserviceaccount.com",
+            "storageBucket": "bvmpjc-58b2c.appspot.com"
+          }
+        firebase.initializeApp(firebaseConfig);
+
+        // On Click save the image on server
+        $(".saveImage").click(function() {
+            var can = document.getElementById('canvas');
+            var dataURL = can.toDataURL();
+            var ID = $(this).data('id')
+            var elem = $(this)
+
+            // Code to upload image to the firebase storage
+            const ref = firebase.storage().ref();
+            
+            canvas = document.getElementById("canvas");
+            canvas.toBlob(function(blob){
+                var image = new Image();
+                image.src = blob;
+                var task = ref.child('AlumniImages/' + ID + ".jpeg").put(blob);
+                task
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then(url => {
+                    $.ajax({
+                        type: "POST",
+                        url: "/AdminPanel/saveImage",
+                        data: {
+                            imageUrl:url,
+                            id:ID,
+                            csrfmiddlewaretoken: "{{ csrf_token }}",
+                        },
+                        success: function(response) {
+                            elem.remove()
+                        }
+                    });
+                });
+            }); 
+        })
+          
+    </script>
+{% endblock javascript %}

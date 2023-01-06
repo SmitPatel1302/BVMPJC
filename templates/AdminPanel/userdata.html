@@ -1,0 +1,70 @@
+{% extends 'AdminPanel/nav.html' %}
+{% block content %}
+{% load static %}
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>User Data</h3>
+                <p class="text-subtitle text-muted">User List with Roles</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/AdminPanel/">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">DataTable Jquery</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Basic Tables start -->
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                Users
+            </div>
+            <div class="card-body">
+                <table class="table" id="table1">
+                    <thead>
+                        <th>Count</th>
+                        <th>Name</th>
+                        <th>Year</th>
+                        <th>Department</th>
+                        <th>Contact</th>
+                        <th>Role</th>
+                        <th>Password</th>
+                        <th></th>
+                    </thead>
+
+                    <tbody>
+                        {% for value in data %}
+                            <tr>
+                                <td>{{ value.sr }}</td>
+                                <td>{{ value.name }}</td>
+                                <td>{{ value.year }}</td>
+                                <td>{{ value.department }}</td>
+                                <td>{{ value.contact }}</td>
+                                <td>{{ value.role }}</td>
+                                <td>{{ value.password }}</td>
+                                <td>
+                                    <a href="/deleteuser/{{value.email}}" class="btn icon btn-danger"><i class="bi bi-x"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </section>
+    
+    <!-- Basic Tables end -->
+</div>
+
+  
+
+
+
+{% endblock %}

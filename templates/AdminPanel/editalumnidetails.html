@@ -1,0 +1,104 @@
+{% extends 'AdminPanel/nav.html' %}
+{% block content %}
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Edit Alumni Data</h3>
+                <!-- <p class="text-subtitle text-muted">Powerful interactive tables with datatables (jQuery required)</p> -->
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/AdminPanel/">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Alumni Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+    <section id="multiple-column-form">
+        <div class="row match-height">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Fill All Information Carefully</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form" method="POST" action="/AdminPanel/editalumnidata/">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="first-name-column">Full Name</label>
+                                            <input type="text" id="first-name-column" class="form-control"
+                                                placeholder="Name" name="name" value="{{data.name}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="last-name-column">Department</label>
+                                            <input type="text" id="last-name-column" class="form-control"
+                                                placeholder="Department" name="department" value="{{data.branch}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="city-column">Contact Number</label>
+                                            <input type="text" id="city-column" class="form-control" placeholder="Contact Number"
+                                                name="contact" value="{{data.mobileNumber}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="country-floating">Email</label>
+                                            <input type="text" id="country-floating" class="form-control"
+                                                name="email" placeholder="email" value="{{data.email}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="company-column">Passing Year</label>
+                                            <input type="text" id="company-column" class="form-control"
+                                                name="year" placeholder="Passing Year" value="{{data.graduationYear}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="email-id-column">City</label>
+                                            <input type="text" id="email-id-column" class="form-control"
+                                                name="country" placeholder="City" value="{{data.city}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="company-column">LM No.</label>
+                                            <input type="text" id="company-column" class="form-control"
+                                                name="lm" placeholder="LM No." value="{{data.imNumber}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <input type="text" id="company-column" class="form-control"
+                                                name="doc" hidden value="{{data.doc}}">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

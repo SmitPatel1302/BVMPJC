@@ -1,0 +1,193 @@
+{% extends 'AdminPanel/nav.html' %}
+{% block content %}
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Add New Alumni Data</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/AdminPanel/">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">New Alumni Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+    <section id="multiple-column-form">
+        <div class="row match-height">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Fill All Information Carefully</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form" method="POST" action="/AdminPanel/addalumnidata/">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="first-name-column">Document ID</label>
+                                            <input type="text" id="scanqr" class="form-control" onchange="myFunction()"
+                                                placeholder="Scan QR Code" name="scanqr" autofocus >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="first-name-column">Full Name</label>
+                                            <input type="text" id="name" class="form-control"
+                                                placeholder="Name" name="name" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="last-name-column">Department</label>
+                                            <input type="text" id="department" class="form-control"
+                                                placeholder="Department" name="department" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="city-column">Contact Number</label>
+                                            <input type="text" id="contact" class="form-control" placeholder="Contact Number" disabled
+                                                name="contact"> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="country-floating">Email</label>
+                                            <input type="text" id="email" class="form-control"
+                                                name="email" placeholder="email" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="company-column">Passing Year</label>
+                                            <input type="text" id="year" class="form-control"
+                                                name="year" placeholder="Passing Year" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="email-id-column">City</label>
+                                            <input type="text" id="city" class="form-control"
+                                                name="country" placeholder="City" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="company-column">LM No.</label>
+                                            <input type="text" id="lmno" class="form-control"
+                                                name="lm" placeholder="LM No." disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="email-id-column">Amount</label>
+                                            <input type="text" id="amount" class="form-control"
+                                                name="amount" placeholder="Amount" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-12">
+                                        <fieldset class="form-group">
+                                            <label for="email-id-column">Pyment Mode</label>
+                                            <select class="form-select" id="paymentmode" disabled>
+                                                <option value="Online">Online</option>
+                                                <option value="Offline">Offline</option>
+                                            </select>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="email-id-column">Date of Registration</label>
+                                            <input type="date" id="datePicker" class="form-control" disabled
+                                                name="registration" placeholder="Date Of Registration">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="email-id-column">Receipt Number</label>
+                                            <input type="text" id="receipt" class="form-control" disabled
+                                                name="receipt" placeholder="Receipt Number">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1" id="submit" disabled>Submit</button>
+                                        <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('datePicker').valueAsDate = new Date();
+        let input = document.getElementById('scanqr');
+        let name = document.getElementById('name')
+        let email = document.getElementById('email');
+        let department = document.getElementById('department');
+        let contact = document.getElementById('contact');
+        let year = document.getElementById('year');
+        let city = document.getElementById('city');
+        let lm = document.getElementById('lmno');
+        let amount = document.getElementById('amount');
+        let payment = document.getElementById('paymentmode');
+        let receipt = document.getElementById('receipt');
+        let date = document.getElementById('datePicker');
+        let btn = document.getElementById('submit');
+
+        input.addEventListener("keypress", stateHandle);
+        function stateHandle() {
+            if ((input.value).length >= 10) {
+                name.disabled = false;
+                email.disabled =false;
+                department.disabled = false;
+                contact.disabled = false;
+                year.disabled = false;
+                city.disabled = false;
+                lm.disabled = false;
+                amount.disabled = false;
+                payment.disabled = false;
+                receipt.disabled = false;
+                date.disabled = false;
+            } else {
+                name.disabled = true;
+                email.disabled =true;
+                department.disabled = true;
+                contact.disabled = true;
+                year.disabled = true;
+                city.disabled = true;
+                lm.disabled = true;
+                amount.disabled = true;
+                payment.disabled = true;
+                receipt.disabled = true;
+                date.disabled = true;
+            }
+        }
+        receipt.addEventListener("keypress",submitbtn);
+        function submitbtn(){
+            if((receipt.value).length >= 4 ){
+                btn.disabled = false;
+            }
+            else{
+                btn.disabled = true;
+            }
+        }
+
+        
+
+
+
+    </script>
+{% endblock %}

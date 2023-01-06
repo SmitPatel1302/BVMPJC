@@ -1,0 +1,63 @@
+{% extends 'AdminPanel/nav.html' %}
+{% block content %}
+{% load static %}
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Alumni Details</h3>
+                <p class="text-subtitle text-muted">Alumni Data Table</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/AdminPanel/">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Alumni Data</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Basic Tables start -->
+    <section class="section">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-content">
+                    {% static "" as baseUrl %}
+                    {%if data.profile != null %}
+                        <img src="{{data.profile}}" class="card-img-top img-fluid" style="max-height:400px;max-width:400px"  alt="Profile Image">
+                    {% else %}
+                        <img src="{% static 'assets/images/logo.png' %}" class="card-img-top img-fluid" style="max-height:300px;max-width:300px"  alt="Profile Image">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">Name : {{data.name}}</h5>
+                        <p class="card-text">
+                            Department : {{data.branch}} - {{data.graduationYear}}
+                        </p>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">City : {{data.city}}</li>
+                    <li class="list-group-item">Contact : {{data.mobileNumber}}</li>
+                    <li class="list-group-item">Email : {{data.email}}</li>
+                    <li class="list-group-item">Life Membership : {{data.imNumber}}</li>
+                    <li class="list-group-item">Total Members : {{data.member}}</li>
+                    <li class="list-group-item">Receipt No. : {{data.receipt}}</li>
+                    <li class="list-group-item">Payment Mode : {{data.payment}}</li>
+                    <li class="list-group-item">Amount : {{data.amount}}</li>
+                </ul>
+            </div>
+            <a href="/AdminPanel/alumnidata"><h3>Back Screen</h3></a>
+        </div>
+        
+    </section>
+    
+    <!-- Basic Tables end -->
+</div>
+
+  
+
+
+
+{% endblock %}

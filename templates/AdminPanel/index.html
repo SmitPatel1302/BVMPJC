@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/fontawesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/all.css' %}" />
+  </head>
+  <body>
+    <h1 class="text-danger">This is index page. <i class="fa-solid fa-arrows-up-down-left-right"></i></h1>
+    <div class="container bg-secondary my-5 text-center"><button type="submit" class="btn btn-primary py-2" id="firejquery">Fire JQuery</button></div>
+
+    <script src="{% static 'vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendor/fontawesome/js/fontawesome.min.js' %}"></script>
+    <script src="{% static 'vendor/fontawesome/js/all.js' %}"></script>
+
+    <script>
+      $(document).ready(function () {
+        $("#firejquery").click(function () {
+          jQuery.ajax({
+            url: "/AdminPanel/renderTableDetails",
+            type: "GET",
+            success: function (response) {
+                console.log(response['name'])
+            },
+            error: function (error){
+                // console.log("id : " + response['id'])
+                // console.log("name : " + response['name'])
+                // console.log("clg : " + response['clg'])
+                // console.log("clgID : " + response['clgID'])
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
