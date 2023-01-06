@@ -5,11 +5,10 @@ from .forms import LoginForm , RegistrationForm
 import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
-import base64
-from uuid import uuid4
 from firebase_admin import credentials, initialize_app, storage
 
 
+# Application Default credentials are automatically created.
 # Application Default credentials are automatically created.
 cred = credentials.Certificate("serviceAccountKey.json")
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
