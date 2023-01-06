@@ -9,7 +9,6 @@ from firebase_admin import credentials, initialize_app, storage
 
 
 # Application Default credentials are automatically created.
-# Application Default credentials are automatically created.
 cred = credentials.Certificate("serviceAccountKey.json")
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 firebase_admin.initialize_app(cred, {'storageBucket': 'bvmpjc-58b2c.appspot.com'})
@@ -133,26 +132,6 @@ class RenderLoginPage(View):
         form = LoginForm()
         return render(request,self.template_name,{"message":message,"form":form})
 
-class LoginFormData(View):
-    template_name = 'AdminPanel/login.html'
-    def get(self, request):
-        username = request.GET.get('username')
-        password = request.GET.get('password') 
-
-        users_ref = db.collection(u'User')
-        dt = users_ref.stream()
-        for data in dt:
-            dict = data.to_dict()
-            if (dict['email'] == username) & (dict['password'] == password):
-                request.session['name'] = dict['name']
-                request.session['role'] = dict['role']
-                request.session['email']=str(username)
-                return HttpResponseRedirect("/")
-        message="Invalid Credentials!!  Please ChecK your Data"
-        form = LoginForm()
-        return render(request,self.template_name,{"message":message,"form":form})
-
-
 # Class to Render Registration Page
 class RenderRegistrationPage(View):
     template_name = 'AdminPanel/registration.html'
@@ -265,9 +244,6 @@ class UpdateAluminiData(View):
             'success':'True'
         }
         return JsonResponse(response)
-
-
-
 
 # Class to save the image on the server after converting in wep3 format
 class SaveImage(View):
