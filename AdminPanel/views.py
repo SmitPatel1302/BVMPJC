@@ -99,7 +99,7 @@ class RenderAddAlumniData(View):
                 "amount":amount,
                 "date":date,
                 "receipt":receipt,
-                "status" : 0,
+                "status" : 1,
                 "profile":"",
                 "doc": doc.id,
             }
